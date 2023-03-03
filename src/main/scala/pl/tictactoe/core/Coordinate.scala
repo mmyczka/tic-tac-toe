@@ -1,0 +1,30 @@
+package pl.tictactoe.core
+
+import cats.Show
+import cats.syntax.all.*
+
+final case class Coordinate(x: Int, y: Int)
+
+object Coordinate:
+  private val Letters = LazyList.from('A').take(BoardSize).toVector
+
+  given Show[Coordinate] = Show.show(f = c =>
+    Letters.get(c.x) match {
+      case Some(letter) if c.y >= 0 && c.y < BoardSize =>
+        s"${letter.toChar}${c.y + 1}"
+      case _ => "--OUT OF BOUNDS--"
+    }
+  )
+
+  def parse(s: String): Option[Coordinate] =
+    def fromLetter(c: Char): Option[Int] = Letters.indexOf(c.toInt) match
+      case -1 => None
+      case x => Some(x)
+
+    def fromDigits(s: Char): Option[Int] = Option
+      .when(s.isDigit)(s.asDigit - 1).filter(d => d >= 0 && d < BoardSize)
+
+    s.toCharArray match
+      case Array(letter, digit) => (fromLetter(letter), fromDigits(digit)).mapN(Coordinate)
+      case _ => None
+
