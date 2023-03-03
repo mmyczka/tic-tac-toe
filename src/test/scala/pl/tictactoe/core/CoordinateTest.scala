@@ -53,7 +53,7 @@ class CoordinateTest extends AnyFreeSpec with Matchers{
       Coordinate(1,0) -> "B1",
       Coordinate(3,4) -> "--OUT OF BOUNDS--",
     )
-    
+
     cases.foreach {
       case(coordinate, expected) =>
         coordinate.show shouldBe expected

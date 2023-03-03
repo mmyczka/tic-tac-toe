@@ -3,7 +3,11 @@ package pl.tictactoe.core
 import cats.Show
 import cats.syntax.all.*
 
-final case class Coordinate(x: Int, y: Int)
+final case class Coordinate(x: Int, y: Int) {
+
+  def translate(d: Direction): Option[Coordinate] = d.bimap(_ + x,  _ + y) match
+    case (nx, ny) => Option.when(nx >= 0 && nx < BoardSize && ny >= 0 && ny < BoardSize)(Coordinate(nx, ny))
+}
 
 object Coordinate:
   private val Letters = LazyList.from('A').take(BoardSize).toVector
