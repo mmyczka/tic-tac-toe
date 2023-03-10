@@ -9,7 +9,7 @@ opaque type Board = ArraySeq[ArraySeq[FieldStatus]]
 
 object Board:
   given Show[Board] with
-    def show(f: Board) =
+    def show(f: Board): String =
       val numbers = LazyList.from(1).take(f.size).map(String.format("%1%2d", _))
       val letters = LazyList.from('A').take(f.size).map(_.toChar.toString)
       ("   " + letters.mkString(" ") + "\n") + f
